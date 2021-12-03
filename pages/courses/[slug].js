@@ -34,7 +34,6 @@ export function getStaticPaths() {
 }
 
 export function getStaticProps({ params }) {
-  console.log(params);
   const { data } = getAllCourses();
   const course = data.filter((c) => c.slug === params.slug)[0];
 
