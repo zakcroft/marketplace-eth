@@ -1,4 +1,4 @@
-import { useHooks } from "../components/providers";
+import { useHooks } from "../providers";
 
 export const useAccount = () => {
   return useHooks((hooks) => hooks.useAccount)();
@@ -7,4 +7,3 @@ export const useAccount = () => {
 export const useNetwork = () => {
   return useHooks((hooks) => hooks.useNetwork)();
 };
-

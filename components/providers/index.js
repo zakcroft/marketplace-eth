@@ -8,7 +8,7 @@ const {
 
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
-import setupHooks from "../../hooks/setUpHooks";
+import setupHooks from "../hooks/setUpHooks";
 
 const Web3Context = createContext(null);
 

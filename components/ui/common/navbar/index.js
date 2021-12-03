@@ -1,10 +1,10 @@
 import { useWeb3 } from "../../../providers";
 import Link from "next/link";
 import { Button } from "../../../ui/common";
-import { useAccount } from "../../../../hooks";
+import { useAccount } from "../../../hooks";
 import { useRouter } from "next/router";
 
-export default function Footer() {
+export default function Navbar() {
   const { connect, isLoading, isWeb3Loaded } = useWeb3();
   const { account } = useAccount();
   const { pathname } = useRouter();

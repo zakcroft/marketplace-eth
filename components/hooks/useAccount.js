@@ -7,7 +7,7 @@ const adminAddresses = {
 
 export const createUseAccount = (web3, provider) => () => {
   const { data, mutate, ...rest } = useSWR(
-    () => web3 ?? "web/accounts",
+    () => (web3 ? "web3/accounts" : null),
     async () => {
       const accounts = await web3.eth.getAccounts();
       return accounts[0];
