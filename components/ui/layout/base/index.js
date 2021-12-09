@@ -1,5 +1,5 @@
 import Web3Provider from "../../../providers";
-import { Navbar, Footer } from "../../common/";
+import { Navbar, Footer } from "../../../ui/common";
 
 export default function BaseLayout({ children }) {
   return (

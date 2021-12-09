@@ -4,8 +4,11 @@ import { getAllCourses } from "../../content/fetcher";
 import { WalletBar } from "../../components/ui/web3";
 import { useAccount, useNetwork } from "../../components/hooks";
 import { Button } from "../../components/ui/common";
+import { OrderModal } from "../../components/ui/order";
+import { useState } from "react";
 
 export default function Marketplace({ courses }) {
+  const [selectedCourse, setSelectedCourse] = useState(null);
   const { account } = useAccount();
   const { network } = useNetwork();
 
@@ -13,9 +16,12 @@ export default function Marketplace({ courses }) {
     <>
       <div className="py-4">
         <WalletBar
-          address={account && account.data}
+          address={account.data}
           network={{
-            ...network,
+            data: network.data,
+            target: network.target,
+            isSupported: network.isSupported,
+            hasInitialResponse: network.hasInitialResponse,
           }}
         />
       </div>
@@ -26,12 +32,23 @@ export default function Marketplace({ courses }) {
             course={course}
             Footer={() => (
               <div className="mt-4">
-                <Button variant="lightPurple">Purchase</Button>
+                <Button
+                  onClick={() => setSelectedCourse(course)}
+                  variant="lightPurple"
+                >
+                  Purchase
+                </Button>
               </div>
             )}
           />
         )}
       </CourseList>
+      {selectedCourse && (
+        <OrderModal
+          course={selectedCourse}
+          onClose={() => setSelectedCourse(null)}
+        />
+      )}
     </>
   );
 }

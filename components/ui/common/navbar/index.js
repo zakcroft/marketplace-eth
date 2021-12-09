@@ -5,10 +5,10 @@ import { useAccount } from "../../../hooks";
 import { useRouter } from "next/router";
 
 export default function Navbar() {
-  const { connect, isLoading, requireInstall, web3 } = useWeb3();
+  const { connect, isLoading, requireInstall } = useWeb3();
   const { account } = useAccount();
-
   const { pathname } = useRouter();
+
   return (
     <section>
       <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
@@ -41,14 +41,10 @@ export default function Navbar() {
                 <Button disabled={true} onClick={connect}>
                   Loading...
                 </Button>
-              ) : web3 != null ? (
-                account && account.data ? (
-                  <Button hoverable={false} className="cursor-default">
-                    Hi there {account.isAdmin ? "Admin" : ""}
-                  </Button>
-                ) : (
-                  <Button onClick={connect}>Connect</Button>
-                )
+              ) : account.data ? (
+                <Button hoverable={false} className="cursor-default">
+                  Hi there {account.isAdmin && "Admin"}
+                </Button>
               ) : requireInstall ? (
                 <Button
                   onClick={() =>
@@ -64,7 +60,7 @@ export default function Navbar() {
           </div>
         </nav>
       </div>
-      {account && account.data && !pathname.includes("/marketplace") && (
+      {account.data && !pathname.includes("/marketplace") && (
         <div className="flex justify-end pt-1 sm:px-6 lg:px-8">
           <div className="text-white bg-indigo-600 rounded-md p-2">
             {account.data}

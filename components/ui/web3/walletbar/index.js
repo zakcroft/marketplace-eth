@@ -21,12 +21,12 @@ export default function WalletBar({ address, network }) {
             </div>
           </div>
           <div>
-            {!network.isSupported && network.data && (
+            {network.hasInitialResponse && !network.isSupported && (
               <div className="bg-red-400 p-4 rounded-lg">
                 <div>Connected to wrong network</div>
                 <div>
                   Connect to: {` `}
-                  <strong className="text-2xl">{network.targetNetwork}</strong>
+                  <strong className="text-2xl">{network.target}</strong>
                 </div>
               </div>
             )}
