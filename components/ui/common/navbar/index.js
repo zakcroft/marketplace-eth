@@ -5,8 +5,9 @@ import { useAccount } from "../../../hooks";
 import { useRouter } from "next/router";
 
 export default function Navbar() {
-  const { connect, isLoading, isWeb3Loaded } = useWeb3();
+  const { connect, isLoading, requireInstall, web3 } = useWeb3();
   const { account } = useAccount();
+
   const { pathname } = useRouter();
   return (
     <section>
@@ -40,15 +41,15 @@ export default function Navbar() {
                 <Button disabled={true} onClick={connect}>
                   Loading...
                 </Button>
-              ) : isWeb3Loaded ? (
-                account.data ? (
+              ) : web3 != null ? (
+                account && account.data ? (
                   <Button hoverable={false} className="cursor-default">
                     Hi there {account.isAdmin ? "Admin" : ""}
                   </Button>
                 ) : (
                   <Button onClick={connect}>Connect</Button>
                 )
-              ) : (
+              ) : requireInstall ? (
                 <Button
                   onClick={() =>
                     window.open("https://metamask.io/download.html", "_blank")
@@ -56,12 +57,14 @@ export default function Navbar() {
                 >
                   Install Metamask
                 </Button>
+              ) : (
+                <Button onClick={connect}>Connect</Button>
               )}
             </div>
           </div>
         </nav>
       </div>
-      {account.data && !pathname.includes("/marketplace") && (
+      {account && account.data && !pathname.includes("/marketplace") && (
         <div className="flex justify-end pt-1 sm:px-6 lg:px-8">
           <div className="text-white bg-indigo-600 rounded-md p-2">
             {account.data}

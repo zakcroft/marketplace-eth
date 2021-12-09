@@ -18,6 +18,7 @@ export default function Web3Provider({ children }) {
     web3: null,
     contract: null,
     isLoading: true,
+    hooks: setupHooks(),
   });
 
   useEffect(() => {
@@ -25,11 +26,13 @@ export default function Web3Provider({ children }) {
       const provider = await detectEthereumProvider();
       if (provider) {
         const web3 = new Web3(provider);
+        const hooks = setupHooks(web3, provider);
         setWeb3Api({
           provider,
           web3,
           contract: null,
           isLoading: false,
+          hooks,
         });
       } else {
         setWeb3Api((api) => ({ ...api, isLoading: false }));
@@ -41,11 +44,10 @@ export default function Web3Provider({ children }) {
   }, []);
 
   const _web3Api = useMemo(() => {
-    const { web3, provider } = web3Api;
+    const { web3, provider, isLoading } = web3Api;
     return {
       ...web3Api,
-      isWeb3Loaded: web3 != null,
-      getHooks: () => setupHooks(web3, provider),
+      requireInstall: !isLoading && !web3,
       connect: provider
         ? async () => {
             try {
@@ -68,9 +70,4 @@ export default function Web3Provider({ children }) {
 
 export function useWeb3() {
   return useContext(Web3Context);
-}
-
-export function useHooks(cb) {
-  const { getHooks } = useWeb3();
-  return cb(getHooks());
 }
